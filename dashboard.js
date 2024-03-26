@@ -271,4 +271,4 @@ async function getMemberCount() {
     return snapshot.data().count;
 }
 
-document.addEventListener("DOMContentLoaded", loadCourseList());
+document.addEventListener("DOMContentLoaded", loadMemberList());
