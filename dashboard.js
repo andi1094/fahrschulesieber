@@ -74,13 +74,13 @@ const createstatus = document.querySelector("#create-status");
 createstatus.innerHTML = "";
 
 function closeCreateStatus() {
-    editstatus.innerHTML = "";
-    editstatusclose.style.display = "none";
+    createstatus.innerHTML = "";
+    createstatusclose.style.display = "none";
 }
 
 function openCreateStatus() {
-    editstatus.innerHTML = "Kurs wurde bearbeitet";
-    editstatusclose.style.display = "block";
+    createstatus.innerHTML = "Kurs wurde erstellt";
+    createstatusclose.style.display = "block";
 }
 
 editstatusclose.addEventListener("click", closeEditStatus);
@@ -119,7 +119,7 @@ function submitForm() {
 form.addEventListener('submit', (e) => {
     e.preventDefault();
     submitForm();
-    createstatus.innerHTML = "Kurs wurde hinzugefügt";
+    openCreateStatus();
 });
 
 
