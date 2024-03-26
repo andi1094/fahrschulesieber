@@ -83,7 +83,7 @@ function openCreateStatus() {
     createstatusclose.style.display = "block";
 }
 
-editstatusclose.addEventListener("click", closeEditStatus);
+createstatusclose.addEventListener("click", closeCreateStatus);
 
 async function setFormData(type, start, end, time, places, price, teacher, archived) {
     let count = await getCourseCount() + 1;
