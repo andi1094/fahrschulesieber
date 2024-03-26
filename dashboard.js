@@ -19,6 +19,8 @@ const db = getFirestore(app);
 
 
 
+
+
 // KURSÜBERSICHT
 
 async function loadCourseList() {
@@ -61,11 +63,27 @@ document.addEventListener("DOMContentLoaded", loadCourseList());
 
 
 
+
+
 // KURS HINZUFÜGEN
 
 const form = document.querySelector("#course-form");
+
+const createstatusclose = document.querySelector("#create-status-close");
 const createstatus = document.querySelector("#create-status");
 createstatus.innerHTML = "";
+
+function closeCreateStatus() {
+    editstatus.innerHTML = "";
+    editstatusclose.style.display = "none";
+}
+
+function openCreateStatus() {
+    editstatus.innerHTML = "Kurs wurde bearbeitet";
+    editstatusclose.style.display = "block";
+}
+
+editstatusclose.addEventListener("click", closeEditStatus);
 
 async function setFormData(type, start, end, time, places, price, teacher, archived) {
     let count = await getCourseCount() + 1;
@@ -103,6 +121,8 @@ form.addEventListener('submit', (e) => {
     submitForm();
     createstatus.innerHTML = "Kurs wurde hinzugefügt";
 });
+
+
 
 
 
@@ -222,3 +242,33 @@ form2.addEventListener('submit', (e) => {
     submitForm2();
     openEditStatus();
 });
+
+
+
+
+
+// SCHÜLERÜBERSICHT
+
+async function loadMemberList() {
+    let q = query(collection(db, "members"), orderBy("__name__"));
+    let querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach((doc) => {
+        addMemberToList(doc.id, doc.data().firstname, doc.data().lastname, doc.data().email, doc.data().phone);
+    });
+}
+
+let memberdiv = document.getElementById("memberdiv");
+memberdiv.innerHTML = "";
+
+function addMemberToList(id, firstname, lastname, email, phone) {
+    memberdiv.innerHTML = ("<div class='dashboard-member background-color-grey padding-medium'><div class='w-layout-grid dashboard-member-item-grid'><div class='text-size-small text-weight-medium text-color-darkgrey'>" + id + "</div><div class='text-size-small text-weight-medium text-color-darkgrey'>" + firstname + "</div><div class='text-size-small text-weight-medium text-color-darkgrey'>" + lastname + "</div><div class='text-size-small text-weight-medium text-color-darkgrey'>" + email + "</div><div class='text-size-small text-weight-medium text-color-darkgrey'>" + phone + "</div></div></div>" + memberdiv.innerHTML);
+}
+
+async function getMemberCount() {
+    const coll = collection(db, "members");
+    const snapshot = await getCountFromServer(coll);
+    return snapshot.data().count;
+}
+
+document.addEventListener("DOMContentLoaded", loadCourseList());
