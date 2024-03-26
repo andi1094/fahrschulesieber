@@ -254,15 +254,15 @@ async function loadMemberList() {
     let querySnapshot = await getDocs(q);
 
     querySnapshot.forEach((doc) => {
-        addMemberToList(doc.id, doc.data().firstname, doc.data().lastname, doc.data().email, doc.data().phone);
+        addMemberToList(doc.id, doc.data().firstname, doc.data().lastname, doc.data().email, doc.data().phone, doc.data().course);
     });
 }
 
 let memberdiv = document.getElementById("memberdiv");
 memberdiv.innerHTML = "";
 
-function addMemberToList(id, firstname, lastname, email, phone) {
-    memberdiv.innerHTML = ("<div class='dashboard-member background-color-grey padding-medium'><div class='w-layout-grid dashboard-member-item-grid'><div class='text-size-small text-weight-medium text-color-darkgrey'>" + id + "</div><div class='text-size-small text-weight-medium text-color-darkgrey'>" + firstname + "</div><div class='text-size-small text-weight-medium text-color-darkgrey'>" + lastname + "</div><div class='text-size-small text-weight-medium text-color-darkgrey'>" + email + "</div><div class='text-size-small text-weight-medium text-color-darkgrey'>" + phone + "</div></div></div>" + memberdiv.innerHTML);
+function addMemberToList(id, firstname, lastname, email, phone, course) {
+    memberdiv.innerHTML = ("<div class='dashboard-member background-color-grey padding-medium'><div class='w-layout-grid dashboard-member-item-grid'><div class='text-size-small text-weight-medium text-color-darkgrey'>" + id + "</div><div class='text-size-small text-weight-medium text-color-darkgrey'>" + firstname + "</div><div class='text-size-small text-weight-medium text-color-darkgrey'>" + lastname + "</div><div class='text-size-small text-weight-medium text-color-darkgrey'>" + email + "</div><div class='text-size-small text-weight-medium text-color-darkgrey'>" + phone + "</div><div class='text-size-small text-weight-medium text-color-darkgrey'>" + course + "</div></div></div>" + memberdiv.innerHTML);
 }
 
 async function getMemberCount() {
