@@ -79,7 +79,8 @@ async function setFormData(type, start, end, time, places, price, teacher, archi
         places: parseInt(places),
         price: parseInt(price),
         teacher: teacher,
-        archived: archived
+        archived: archived,
+        members: []
     });
 }
 
@@ -154,6 +155,12 @@ async function loadSelectField() {
     }
 }
 
+async function getMembers(courseid) {   
+    const docRef = doc(db, "courses", courseid);
+    const docSnap = await getDoc(docRef);
+    return docSnap.data().members;
+}
+
 document.addEventListener("DOMContentLoaded", loadSelectField());
 
 async function onSelectChange() {
@@ -180,6 +187,7 @@ selectedcourse.addEventListener("change", onSelectChange);
 
 async function setFormData2(type, start, end, time, places, price, teacher, archived) {
     const selectedCourseID = selectedcourse.value.toString();
+    const membersList = await getMembers(selectedCourseID);
 
     await setDoc(doc(db, "courses", selectedCourseID), {
         type: type,
@@ -189,7 +197,8 @@ async function setFormData2(type, start, end, time, places, price, teacher, arch
         places: parseInt(places),
         price: parseInt(price),
         teacher: teacher,
-        archived: archived
+        archived: archive,
+        members: memberList
     });
 }
 
@@ -203,7 +212,8 @@ function submitForm2() {
         form2.elements['edit-places'].value,
         form2.elements['edit-price'].value,
         form2.elements['edit-teacher'].value,
-        archivedBool
+        archivedBool,
+        
     );
 }
 
