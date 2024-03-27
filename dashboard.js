@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
-import { getFirestore, query, where, collection, doc, setDoc, addDoc, getDoc, getDocs, orderBy, getCountFromServer } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getFirestore, query, where, collection, doc, setDoc, addDoc, getDoc, getDocs, orderBy, getCountFromServer, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyA0SBKZ8NbGpGzD0rqD7A4OG6TJVeqYxJ0",
