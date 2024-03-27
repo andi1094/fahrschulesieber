@@ -316,6 +316,14 @@ async function loadMSelectField() {
 
 document.addEventListener("DOMContentLoaded", loadMSelectField());
 
+async function getMemberList(id) {
+    const docRef = doc(db, "courses", id.toString());
+    const docSnap = await getDoc(docRef);
+    var members = new Array();
+    members = docSnap.data().members;
+    return members;
+}
+
 async function setFormData3(firstname, lastname, email, phone, course, valid) {
     let count = await getMemberCount() + 1;
     let memberID = count.toString().padStart(6, '0');
@@ -330,12 +338,14 @@ async function setFormData3(firstname, lastname, email, phone, course, valid) {
         valid: valid
     });
 
-    let memberList = await getMemberList(course.toString());
-    memberList.push(memberID.toString());
+    if(course != "") {
+        let memberList = await getMemberList(course.toString());
+        memberList.push(memberID.toString());
 
-    await updateDoc(doc(db, "courses", course.toString()), {
-        members: memberList
-    });
+        await updateDoc(doc(db, "courses", course.toString()), {
+            members: memberList
+        });
+    }
 }
 
 function submitForm3() {
