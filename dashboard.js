@@ -254,15 +254,19 @@ async function loadMemberList() {
     let querySnapshot = await getDocs(q);
 
     querySnapshot.forEach((doc) => {
-        addMemberToList(doc.id, doc.data().firstname, doc.data().lastname, doc.data().email, doc.data().phone, doc.data().course);
+        addMemberToList(doc.id, doc.data().firstname, doc.data().lastname, doc.data().email, doc.data().phone, doc.data().course, doc.data().valid);
     });
 }
 
 let memberdiv = document.getElementById("memberdiv");
 memberdiv.innerHTML = "";
 
-function addMemberToList(id, firstname, lastname, email, phone, course) {
-    memberdiv.innerHTML = ("<div class='dashboard-member background-color-grey padding-medium'><div class='w-layout-grid dashboard-member-item-grid'><div class='text-size-small text-weight-medium text-color-darkgrey'>" + id + "</div><div class='text-size-small text-weight-medium text-color-darkgrey'>" + firstname + "</div><div class='text-size-small text-weight-medium text-color-darkgrey'>" + lastname + "</div><div class='text-size-small text-weight-medium text-color-darkgrey'>" + email + "</div><div class='text-size-small text-weight-medium text-color-darkgrey'>" + phone + "</div><div class='text-size-small text-weight-medium text-color-darkgrey'>" + course + "</div></div></div>" + memberdiv.innerHTML);
+function addMemberToList(id, firstname, lastname, email, phone, course, valid) {
+    if (valid == false) {
+        memberdiv.innerHTML = ("<div class='dashboard-member background-color-grey padding-medium'><div class='w-layout-grid dashboard-member-item-grid'><div class='text-size-small text-weight-medium text-color-darkgrey'>" + id + "</div><div class='text-size-small text-weight-medium text-color-darkgrey'>" + firstname + "</div><div class='text-size-small text-weight-medium text-color-darkgrey'>" + lastname + "</div><div class='text-size-small text-weight-medium text-color-darkgrey'>" + email + "</div><div class='text-size-small text-weight-medium text-color-darkgrey'>" + phone + "</div><div class='text-size-small text-weight-medium text-color-darkgrey'>" + course + "</div><div class='text-size-small text-weight-medium text-color-darkgrey'>Offen</div></div></div>" + memberdiv.innerHTML);
+    } else {
+        memberdiv.innerHTML = ("<div class='dashboard-member background-color-grey padding-medium'><div class='w-layout-grid dashboard-member-item-grid'><div class='text-size-small text-weight-medium text-color-darkgrey'>" + id + "</div><div class='text-size-small text-weight-medium text-color-darkgrey'>" + firstname + "</div><div class='text-size-small text-weight-medium text-color-darkgrey'>" + lastname + "</div><div class='text-size-small text-weight-medium text-color-darkgrey'>" + email + "</div><div class='text-size-small text-weight-medium text-color-darkgrey'>" + phone + "</div><div class='text-size-small text-weight-medium text-color-darkgrey'>" + course + "</div><div class='text-size-small text-weight-medium text-color-darkgrey'>Bestätigt</div></div></div>" + memberdiv.innerHTML);
+    }
 }
 
 async function getMemberCount() {
@@ -272,3 +276,80 @@ async function getMemberCount() {
 }
 
 document.addEventListener("DOMContentLoaded", loadMemberList());
+
+
+
+
+
+// SCHÜLER HINZUFÜGEN
+
+const form3 = document.querySelector("#member-form");
+const selectedmcourse = document.querySelector("#membercourse");
+
+const mcreatestatusclose = document.querySelector("#mcreate-status-close");
+const mcreatestatus = document.querySelector("#mcreate-status");
+mcreatestatus.innerHTML = "";
+
+function closeMCreateStatus() {
+    mcreatestatus.innerHTML = "";
+    mcreatestatusclose.style.display = "none";
+}
+
+function openMCreateStatus() {
+    mcreatestatus.innerHTML = "Schüler wurde erstellt";
+    mcreatestatusclose.style.display = "block";
+}
+
+mcreatestatusclose.addEventListener("click", closeMCreateStatus);
+
+async function loadMSelectField() {
+    const courses = await loadCourses();
+    const options = createSelectOptions(courses);
+
+    for (const option of options) {
+        const newOption = document.createElement("option");
+        newOption.value = option.value;
+        newOption.textContent = option.label;
+        selectedmcourse.appendChild(newOption);
+    }
+}
+
+async function setFormData3(firstname, lastname, email, phone, course, valid) {
+    let count = await getMemberCount() + 1;
+    let memberID = count.toString().padStart(6, '0');
+
+    await setDoc(doc(db, "members", memberID.toString()), {
+        firstname: firstname,
+        lastname: lastname,
+        email: email,
+        phone: phone,
+        message: "",
+        course: course,
+        valid: valid
+    });
+
+    let memberList = await getMemberList(course.toString());
+    memberList.push(memberID.toString());
+
+    await updateDoc(doc(db, "courses", course.toString()), {
+        members: memberList
+    });
+}
+
+function submitForm3() {
+    let valid = (form3.elements['valid'].value === "true");
+    setFormData3(
+        form3.elements['firstname'].value,
+        form3.elements['lastname'].value,
+        form3.elements['email'].value,
+        form3.elements['phone'].value,
+        form3.elements['membercourse'].value,
+        valid
+    );
+}
+
+form3.addEventListener('submit', (e) => {
+    e.preventDefault();
+    submitForm3();
+    openMCreateStatus();
+});
