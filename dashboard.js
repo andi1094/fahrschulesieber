@@ -314,6 +314,8 @@ async function loadMSelectField() {
     }
 }
 
+document.addEventListener("DOMContentLoaded", loadMSelectField());
+
 async function setFormData3(firstname, lastname, email, phone, course, valid) {
     let count = await getMemberCount() + 1;
     let memberID = count.toString().padStart(6, '0');
