@@ -218,7 +218,7 @@ async function setFormData2(type, start, end, time, places, price, teacher, arch
         price: parseInt(price),
         teacher: teacher,
         archived: archived,
-        members: memberList
+        members: membersList
     });
 }
 
