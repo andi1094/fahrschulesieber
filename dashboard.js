@@ -217,7 +217,7 @@ async function setFormData2(type, start, end, time, places, price, teacher, arch
         places: parseInt(places),
         price: parseInt(price),
         teacher: teacher,
-        archived: archive,
+        archived: archived,
         members: memberList
     });
 }
