@@ -81,8 +81,8 @@ async function loadCourses() {
     console.log(fDates);
     console.log("-------");
 
-    let sortedIDates = sortArray(iDates);
-    let sortedFDates = sortArray(fDates);
+    let sortedIDates = await sortArray(iDates);
+    let sortedFDates = await sortArray(fDates);
 
     console.log("-------");
     console.log("3");
@@ -101,7 +101,8 @@ async function loadCourses() {
     return;
 }
 
-function sortArray(array) {
+async function sortArray(array) {
+    console.log(array);
     console.log("Arraylänge: " + array.length);
     for (let i = 1; i < array.length; i++) {
       let currentElement = array[i];
