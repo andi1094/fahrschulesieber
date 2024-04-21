@@ -61,6 +61,8 @@ async function loadCourses() {
             places: courseData.places,
             id: doc.id
         });
+    }, async () => {
+        await sortArray(iDates);
     });
 
     ferienSnapshot.forEach(async (doc) => {
@@ -73,10 +75,9 @@ async function loadCourses() {
             places: courseData.places,
             id: doc.id
         });
-    });
-
-    await sortArray(iDates);
-    await sortArray(fDates);
+    }, async () => {
+        await sortArray(fDates);
+    }); 
 }
 
 async function sortArray(beforeArray) {
