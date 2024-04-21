@@ -75,19 +75,22 @@ async function loadCourses() {
         });
     });
 
+    let sortedIDates = [];
+    let sortedFDates = [];
+
     iDates = (array) => {
         for (let i = 1; i < array.length; i++) {
           let currentElement = array[i].date;
           let lastIndex = i - 1;
       
-          while (lastIndex >= 0 && compareDates(currentElement.valueOf, array[lastIndex].date.valueOf) < 0) {
+          while (lastIndex >= 0 && compareDates(currentElement.valueOf, array[lastIndex].date.valueOf) > 0) {
             array[lastIndex + 1] = array[lastIndex];
             lastIndex--;
           }
           array[lastIndex + 1] = currentElement;
         }
       
-        iDates = array;
+        return array;
     };
 
     fDates = (array) => {
@@ -95,14 +98,14 @@ async function loadCourses() {
           let currentElement = array[i].date;
           let lastIndex = i - 1;
       
-          while (lastIndex >= 0 && compareDates(currentElement.valueOf, array[lastIndex].date.valueOf) < 0) {
+          while (lastIndex >= 0 && compareDates(currentElement.valueOf, array[lastIndex].date.valueOf) > 0) {
             array[lastIndex + 1] = array[lastIndex];
             lastIndex--;
           }
           array[lastIndex + 1] = currentElement;
         }
       
-        fDates = array;
+        return array;
     };
 
     iDates.forEach((course) => {
