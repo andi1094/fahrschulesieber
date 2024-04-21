@@ -55,79 +55,55 @@ async function loadCourses() {
         const courseData = doc.data();
         const parsedStartDate = parseDate(courseData.start.toString());
 
-        if (iDates.length === 0) {
-            iDates.push({
-                date: parsedStartDate,
-                type: "i",
-                places: courseData.places,
-                id: doc.id
-              });
-        } else if (iDates.length === 1) {
-            const comparison = compareDates({ date: parsedStartDate }, iDates[0]);
-            if (comparison < 0) {
-              iDates.unshift({
-                date: parsedStartDate,
-                type: "i",
-                places: courseData.places,
-                id: doc.id
-              });
-            } else {
-              iDates.push({
-                date: parsedStartDate,
-                type: "i",
-                places: courseData.places,
-                id: doc.id
-              });
-            }
-        } else {
-            const insertIndex = await iDates.findInsertIndex((courseA, courseB) => compareDates(courseA.date, courseB.date));
-            iDates.splice(insertIndex, 0, {
-                date: parsedStartDate,
-                type: "i",
-                places: courseData.places,
-                id: doc.id
-            });
-        }
+        iDates.push({
+            date: parsedStartDate,
+            type: "i",
+            places: courseData.places,
+            id: doc.id
+        });
     });
 
     ferienSnapshot.forEach(async (doc) => {
         const courseData = doc.data();
         const parsedStartDate = parseDate(courseData.start.toString());
 
-        if (fDates.length === 0) {
-            fDates.push({
-                date: parsedStartDate,
-                type: "f",
-                places: courseData.places,
-                id: doc.id
-              });
-        } else if (fDates.length === 1) {
-            const comparison = compareDates({ date: parsedStartDate }, fDates[0]);
-            if (comparison < 0) {
-              fDates.unshift({
-                date: parsedStartDate,
-                type: "f",
-                places: courseData.places,
-                id: doc.id
-              });
-            } else {
-              fDates.push({
-                date: parsedStartDate,
-                type: "f",
-                places: courseData.places,
-                id: doc.id
-              });
-            }
-        } else {
-            const insertIndex = await fDates.findInsertIndex((courseA, courseB) => compareDates(courseA.date, courseB.date));
-            fDates.splice(insertIndex, 0, {
-                date: parsedStartDate,
-                type: "f",
-                places: courseData.places,
-                id: doc.id
-            });
-        }
+        fDates.push({
+            date: parsedStartDate,
+            type: "f",
+            places: courseData.places,
+            id: doc.id
+        });
     });
+
+    iDates = (array) => {
+        for (let i = 1; i < array.length; i++) {
+          let currentElement = array[i].date;
+          let lastIndex = i - 1;
+      
+          while (lastIndex >= 0 && compareDates(currentElement.valueOf, array[lastIndex].date.valueOf) < 0) {
+            array[lastIndex + 1] = array[lastIndex];
+            lastIndex--;
+          }
+          array[lastIndex + 1] = currentElement;
+        }
+      
+        return array;
+    };
+
+    fDates = (array) => {
+        for (let i = 1; i < array.length; i++) {
+          let currentElement = array[i].date;
+          let lastIndex = i - 1;
+      
+          while (lastIndex >= 0 && compareDates(currentElement.valueOf, array[lastIndex].date.valueOf) < 0) {
+            array[lastIndex + 1] = array[lastIndex];
+            lastIndex--;
+          }
+          array[lastIndex + 1] = currentElement;
+        }
+      
+        return array;
+    };
 
     iDates.forEach((course) => {
         addCourseToList(course.date, course.type, course.places, course.id);
@@ -140,36 +116,11 @@ async function loadCourses() {
     return;
 }
 
-Array.prototype.findInsertIndex = function (compareFn) {
-    let low = 0;
-    let high = this.length;
-
-    while (low < high) {
-        const mid = Math.floor((low + high) / 2);
-        const comparison = compareFn(this[mid]);
-
-        if (comparison === 0) {
-            return mid; // Element already exists, insert at equal index
-        } else if (comparison < 0) {
-            high = mid; // Insert before or equal to mid
-        } else {
-            low = mid + 1; // Insert after mid
-        }
-    }
-
-    return low; // Insert at low (new smallest element)
-};
-
 function compareDates(a, b) {
-    if (!a.date || !b.date) {
-        // Handle missing dates (e.g., log an error or return a default value)
-        console.error("Course object missing date property:", a, b);
-        return 0; // Or any other default comparison value
-    }
-    const dateA = moment(a.date, "DD.MM.YYYY");
-    const dateB = moment(b.date, "DD.MM.YYYY");
+  const dateA = moment(a.date, "DD.MM.YYYY");
+  const dateB = moment(b.date, "DD.MM.YYYY");
 
-    return dateA.valueOf() - dateB.valueOf(); // Sort by date using Moment's valueOf() method
+  return dateA.valueOf() - dateB.valueOf(); // Sort by date using Moment's valueOf() method
 }
 
 let idiv = document.getElementById("idiv");
