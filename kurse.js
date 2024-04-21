@@ -88,12 +88,6 @@ async function loadCourses() {
     const sortedIDates = sortArray(iDates);
     const sortedFDates = sortArray(fDates);
 
-    console.log("-------");
-    console.log("3");
-    console.log(sortedIDates);
-    console.log(sortedFDates);
-    console.log("-------");
-
     sortedIDates.forEach((course) => {
         addCourseToList(course.date, course.type, course.places, course.id);
     });
@@ -113,16 +107,12 @@ function sortArray(beforeArray) {
       let currentElement = array[i];
       let lastIndex = i - 1;
 
-      while (lastIndex >= 0 && compareDates(currentElement.date, array[lastIndex].date) > 0) {
+      while (lastIndex >= 0 && compareDates(currentElement.date, array[lastIndex].date) < 0) {
         array[lastIndex + 1] = array[lastIndex];
         lastIndex--;
       }
       array[lastIndex + 1] = currentElement;
     }
-    console.log("-------");
-    console.log("2");
-    console.log(array);
-    console.log("-------");
     return array;
 }
 
