@@ -105,9 +105,10 @@ async function sortArray(array) {
     for (let i = 1; i < array.length; i++) {
       let currentElement = array[i];
       let lastIndex = i - 1;
-  
-      while (lastIndex >= 0 && compareDates(currentElement.date.valueOf, array[lastIndex].date.valueOf) < 0) {
-        console.log(compareDates(currentElement.date.valueOf, array[lastIndex].date.valueOf));
+        
+      console.log(compareDates(currentElement.date.valueOf, array[lastIndex].date.valueOf));
+
+      while (lastIndex >= 0 && compareDates(currentElement.date.valueOf, array[lastIndex].date.valueOf) > 0) {
         array[lastIndex + 1] = array[lastIndex];
         lastIndex--;
       }
