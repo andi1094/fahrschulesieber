@@ -24,8 +24,8 @@ async function getMemberCount(id) {
     return docSnap.data().members.length;
 }
 
-function parseDate(date) {
-    const parsedDate = moment(date, "DD.MM.YYYY");
+async function parseDate(date) {
+    const parsedDate = await moment(date, "DD.MM.YYYY");
     return parsedDate.format("DD.MM.YYYY");
 }
 
@@ -53,7 +53,7 @@ async function loadCourses() {
 
     intensiveSnapshot.forEach(async (doc) => {
         const courseData = doc.data();
-        const parsedStartDate = parseDate(courseData.start.toString());
+        const parsedStartDate = await parseDate(courseData.start.toString());
 
         iDates.push({
             date: parsedStartDate,
@@ -65,7 +65,7 @@ async function loadCourses() {
 
     ferienSnapshot.forEach(async (doc) => {
         const courseData = doc.data();
-        const parsedStartDate = parseDate(courseData.start.toString());
+        const parsedStartDate = await parseDate(courseData.start.toString());
 
         fDates.push({
             date: parsedStartDate,
@@ -78,8 +78,8 @@ async function loadCourses() {
     console.log(iDates);
     console.log(fDates);
 
-    iDates = sortArray(iDates);
-    fDates = sortArray(fDates);
+    iDates = await sortArray(iDates);
+    fDates = await sortArray(fDates);
 
     iDates.forEach((course) => {
         addCourseToList(course.date, course.type, course.places, course.id);
@@ -92,16 +92,16 @@ async function loadCourses() {
     return;
 }
 
-function sortArray(array) {
+async function sortArray(array) {
     for (let i = 1; i < array.length; i++) {
       let currentElement = array[i].date;
       let lastIndex = i - 1;
   
       while (lastIndex >= 0 && compareDates(currentElement.valueOf, array[lastIndex].date.valueOf) > 0) {
-        array[lastIndex + 1] = array[lastIndex];
+        array[lastIndex + 1].date = array[lastIndex].date;
         lastIndex--;
       }
-      array[lastIndex + 1] = currentElement;
+      array[lastIndex + 1].date = currentElement;
     }
     console.log(fDates);
     return array;
