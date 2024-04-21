@@ -101,7 +101,8 @@ async function loadCourses() {
     return;
 }
 
-async function sortArray(array) {
+async function sortArray(beforeArray) {
+    let array = await beforeArray;
     console.log(array);
     console.log("Arraylänge: " + array.length);
     for (let i = 1; i < array.length; i++) {
