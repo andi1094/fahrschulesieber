@@ -55,7 +55,7 @@ async function loadCourses() {
         const courseData = doc.data();
         const parsedStartDate = parseDate(courseData.start.toString());
 
-        const insertIndex = iDates.findInsertIndex((c) => c.date >= parsedStartDate);
+        const insertIndex = iDates.findInsertIndex(compareDates);
         iDates.splice(insertIndex, 0, {
             date: parsedStartDate,
             type: "i",
@@ -68,7 +68,7 @@ async function loadCourses() {
         const courseData = doc.data();
         const parsedStartDate = parseDate(courseData.start.toString());
 
-        const insertIndex = fDates.findInsertIndex((c) => c.date >= parsedStartDate);
+        const insertIndex = fDates.findInsertIndex(compareDates);
         fDates.splice(insertIndex, 0, {
             date: parsedStartDate,
             type: "f",
@@ -107,6 +107,13 @@ Array.prototype.findInsertIndex = function (compareFn) {
 
     return low; // Insert at low (new smallest element)
 };
+
+function compareDates(a, b) {
+  const dateA = moment(a.date, "DD.MM.YYYY");
+  const dateB = moment(b.date, "DD.MM.YYYY");
+
+  return dateA.valueOf() - dateB.valueOf(); // Sort by date using Moment's valueOf() method
+}
 
 let idiv = document.getElementById("idiv");
 idiv.innerHTML = "";
