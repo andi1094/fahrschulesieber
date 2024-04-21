@@ -75,16 +75,20 @@ async function loadCourses() {
         });
     });
 
+    console.log("-------");
     console.log("1");
     console.log(iDates);
     console.log(fDates);
+    console.log("-------");
 
     iDates = await sortArray(iDates);
     fDates = await sortArray(fDates);
 
+    console.log("-------");
     console.log("3");
     console.log(iDates);
     console.log(fDates);
+    console.log("-------");
 
     iDates.forEach((course) => {
         addCourseToList(course.date, course.type, course.places, course.id);
@@ -102,14 +106,17 @@ async function sortArray(array) {
       let currentElement = array[i];
       let lastIndex = i - 1;
   
-      while (lastIndex >= 0 && compareDates(currentElement.date.valueOf, array[lastIndex].date.valueOf) > 0) {
+      while (lastIndex >= 0 && compareDates(currentElement.date.valueOf, array[lastIndex].date.valueOf) < 0) {
+        console.log(compareDates(currentElement.date.valueOf, array[lastIndex].date.valueOf));
         array[lastIndex + 1] = array[lastIndex];
         lastIndex--;
       }
       array[lastIndex + 1] = currentElement;
     }
+    console.log("-------");
     console.log("2");
     console.log(array);
+    console.log("-------");
     return array;
 };
 
