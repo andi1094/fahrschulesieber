@@ -55,26 +55,44 @@ async function loadCourses() {
         const courseData = doc.data();
         const parsedStartDate = parseDate(courseData.start.toString());
 
-        const insertIndex = iDates.findInsertIndex((courseA, courseB) => compareDates(courseA.date, courseB.date));
-        iDates.splice(insertIndex, 0, {
-            date: parsedStartDate,
-            type: "i",
-            places: courseData.places,
-            id: doc.id
-        });
+        if (iDates.length === 0) {
+            iDates.push({
+                date: parsedStartDate,
+                type: "i",
+                places: courseData.places,
+                id: doc.id
+              });
+        } else {
+            const insertIndex = iDates.findInsertIndex((courseA, courseB) => compareDates(courseA.date, courseB.date));
+            iDates.splice(insertIndex, 0, {
+                date: parsedStartDate,
+                type: "i",
+                places: courseData.places,
+                id: doc.id
+            });
+        }
     });
 
     ferienSnapshot.forEach(async (doc) => {
         const courseData = doc.data();
         const parsedStartDate = parseDate(courseData.start.toString());
 
-        const insertIndex = fDates.findInsertIndex((courseA, courseB) => compareDates(courseA.date, courseB.date));
-        fDates.splice(insertIndex, 0, {
-            date: parsedStartDate,
-            type: "f",
-            places: courseData.places,
-            id: doc.id
-        });
+        if (fDates.length === 0) {
+            fDates.push({
+                date: parsedStartDate,
+                type: "f",
+                places: courseData.places,
+                id: doc.id
+              });
+        } else {
+            const insertIndex = fDates.findInsertIndex((courseA, courseB) => compareDates(courseA.date, courseB.date));
+            fDates.splice(insertIndex, 0, {
+                date: parsedStartDate,
+                type: "f",
+                places: courseData.places,
+                id: doc.id
+            });
+        }
     });
 
     iDates.forEach((course) => {
