@@ -75,10 +75,11 @@ async function loadCourses() {
         });
     });
 
-    let sortedIDates = [];
-    let sortedFDates = [];
+    console.log(iDates);
+    console.log(fDates);
 
     iDates = (array) => {
+        const sortedArray = [...array];
         for (let i = 1; i < array.length; i++) {
           let currentElement = array[i].date;
           let lastIndex = i - 1;
@@ -89,11 +90,12 @@ async function loadCourses() {
           }
           array[lastIndex + 1] = currentElement;
         }
-      
-        return array;
+        console.log(iDates);
+        return sortedArray;
     };
 
     fDates = (array) => {
+        const sortedArray = [...array];
         for (let i = 1; i < array.length; i++) {
           let currentElement = array[i].date;
           let lastIndex = i - 1;
@@ -104,9 +106,12 @@ async function loadCourses() {
           }
           array[lastIndex + 1] = currentElement;
         }
-      
-        return array;
+        console.log(fDates);
+        return sortedArray;
     };
+
+    console.log(iDates);
+    console.log(fDates);
 
     iDates.forEach((course) => {
         addCourseToList(course.date, course.type, course.places, course.id);
