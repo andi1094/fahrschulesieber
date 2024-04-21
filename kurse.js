@@ -80,7 +80,7 @@ async function loadCourses() {
               });
             }
         } else {
-            const insertIndex = iDates.findInsertIndex((courseA, courseB) => compareDates(courseA.date, courseB.date));
+            const insertIndex = await iDates.findInsertIndex((courseA, courseB) => compareDates(courseA.date, courseB.date));
             iDates.splice(insertIndex, 0, {
                 date: parsedStartDate,
                 type: "i",
@@ -119,7 +119,7 @@ async function loadCourses() {
               });
             }
         } else {
-            const insertIndex = fDates.findInsertIndex((courseA, courseB) => compareDates(courseA.date, courseB.date));
+            const insertIndex = await fDates.findInsertIndex((courseA, courseB) => compareDates(courseA.date, courseB.date));
             fDates.splice(insertIndex, 0, {
                 date: parsedStartDate,
                 type: "f",
