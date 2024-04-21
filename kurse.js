@@ -48,8 +48,8 @@ async function loadCourses() {
         getDocs(ferienQuery)
     ]);
 
-    const iDates = [];
-    const fDates = [];
+    let iDates = [];
+    let fDates = [];
 
     intensiveSnapshot.forEach(async (doc) => {
         const courseData = doc.data();
