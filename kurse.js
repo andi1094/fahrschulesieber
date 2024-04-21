@@ -161,10 +161,15 @@ Array.prototype.findInsertIndex = function (compareFn) {
 };
 
 function compareDates(a, b) {
-  const dateA = moment(a.date, "DD.MM.YYYY");
-  const dateB = moment(b.date, "DD.MM.YYYY");
+    if (!a.date || !b.date) {
+        // Handle missing dates (e.g., log an error or return a default value)
+        console.error("Course object missing date property:", a, b);
+        return 0; // Or any other default comparison value
+    }
+    const dateA = moment(a.date, "DD.MM.YYYY");
+    const dateB = moment(b.date, "DD.MM.YYYY");
 
-  return dateA.valueOf() - dateB.valueOf(); // Sort by date using Moment's valueOf() method
+    return dateA.valueOf() - dateB.valueOf(); // Sort by date using Moment's valueOf() method
 }
 
 let idiv = document.getElementById("idiv");
