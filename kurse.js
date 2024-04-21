@@ -102,8 +102,8 @@ async function loadCourses() {
 }
 
 async function sortArray(array) {
+    console.log("Arraylänge: " + array.length)
     for (let i = 1; i < array.length; i++) {
-        console.log("resr");
       let currentElement = array[i];
       let lastIndex = i - 1;
         
