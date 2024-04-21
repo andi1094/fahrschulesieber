@@ -81,20 +81,20 @@ async function loadCourses() {
     console.log(fDates);
     console.log("-------");
 
-    iDates = await sortArray(iDates);
-    fDates = await sortArray(fDates);
+    let sortedIDates = await sortArray(iDates);
+    let sortedFDates = await sortArray(fDates);
 
     console.log("-------");
     console.log("3");
-    console.log(iDates);
-    console.log(fDates);
+    console.log(sortedIDates);
+    console.log(sortedFDates);
     console.log("-------");
 
-    iDates.forEach((course) => {
+    sortedIDates.forEach((course) => {
         addCourseToList(course.date, course.type, course.places, course.id);
     });
 
-    fDates.forEach((course) => {
+    sortedFDates.forEach((course) => {
         addCourseToList(course.date, course.type, course.places, course.id);
     });
 
