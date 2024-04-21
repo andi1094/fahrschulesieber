@@ -112,8 +112,6 @@ function sortArray(beforeArray) {
     for (let i = 1; i < array.length; i++) {
       let currentElement = array[i];
       let lastIndex = i - 1;
-        
-      console.log(compareDates(currentElement.date.valueOf, array[lastIndex].date.valueOf));
 
       while (lastIndex >= 0 && compareDates(currentElement.date, array[lastIndex].date) > 0) {
         array[lastIndex + 1] = array[lastIndex];
