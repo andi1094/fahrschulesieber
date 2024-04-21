@@ -51,29 +51,33 @@ async function loadCourses() {
     let iDates = [];
     let fDates = [];
 
-    intensiveSnapshot.forEach(async (doc) => {
-        const courseData = doc.data();
-        const parsedStartDate = await parseDate(courseData.start.toString());
+    const promises = [
+        intensiveSnapshot.forEach(async (doc) => {
+            const courseData = doc.data();
+            const parsedStartDate = await parseDate(courseData.start.toString());
 
-        iDates.push({
-            date: parsedStartDate,
-            type: "i",
-            places: courseData.places,
-            id: doc.id
-        });
-    });
+            iDates.push({
+                date: parsedStartDate,
+                type: "i",
+                places: courseData.places,
+                id: doc.id
+            });
+        }),
 
-    ferienSnapshot.forEach(async (doc) => {
-        const courseData = doc.data();
-        const parsedStartDate = await parseDate(courseData.start.toString());
+        ferienSnapshot.forEach(async (doc) => {
+            const courseData = doc.data();
+            const parsedStartDate = await parseDate(courseData.start.toString());
 
-        fDates.push({
-            date: parsedStartDate,
-            type: "f",
-            places: courseData.places,
-            id: doc.id
-        });
-    });
+            fDates.push({
+                date: parsedStartDate,
+                type: "f",
+                places: courseData.places,
+                id: doc.id
+            });
+        })
+    ];
+
+    await Promise.all(promises);
 
     console.log("-------");
     console.log("1");
@@ -81,8 +85,8 @@ async function loadCourses() {
     console.log(fDates);
     console.log("-------");
 
-    let sortedIDates = await sortArray(iDates);
-    let sortedFDates = await sortArray(fDates);
+    const sortedIDates = sortArray(iDates);
+    const sortedFDates = sortArray(fDates);
 
     console.log("-------");
     console.log("3");
@@ -101,8 +105,8 @@ async function loadCourses() {
     return;
 }
 
-async function sortArray(beforeArray) {
-    let array = await beforeArray;
+function sortArray(beforeArray) {
+    let array = beforeArray;
     console.log(array);
     console.log("Arraylänge: " + array.length);
     for (let i = 1; i < array.length; i++) {
