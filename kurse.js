@@ -115,7 +115,7 @@ function sortArray(beforeArray) {
         
       console.log(compareDates(currentElement.date.valueOf, array[lastIndex].date.valueOf));
 
-      while (lastIndex >= 0 && compareDates(currentElement.date.valueOf, array[lastIndex].date.valueOf) > 0) {
+      while (lastIndex >= 0 && compareDates(currentElement.date, array[lastIndex].date) > 0) {
         array[lastIndex + 1] = array[lastIndex];
         lastIndex--;
       }
@@ -129,10 +129,11 @@ function sortArray(beforeArray) {
 }
 
 function compareDates(a, b) {
-  const dateA = moment(a.date, "DD.MM.YYYY");
-  const dateB = moment(b.date, "DD.MM.YYYY");
+    console.log(a + b);
+    const dateA = moment(a.date, "DD.MM.YYYY");
+    const dateB = moment(b.date, "DD.MM.YYYY");
 
-  return dateA.valueOf() - dateB.valueOf(); // Sort by date using Moment's valueOf() method
+    return dateA.valueOf() - dateB.valueOf(); // Sort by date using Moment's valueOf() method
 }
 
 let idiv = document.getElementById("idiv");
