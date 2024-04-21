@@ -78,40 +78,8 @@ async function loadCourses() {
     console.log(iDates);
     console.log(fDates);
 
-    iDates = (array) => {
-        const sortedArray = [...array];
-        for (let i = 1; i < array.length; i++) {
-          let currentElement = array[i].date;
-          let lastIndex = i - 1;
-      
-          while (lastIndex >= 0 && compareDates(currentElement.valueOf, array[lastIndex].date.valueOf) > 0) {
-            array[lastIndex + 1] = array[lastIndex];
-            lastIndex--;
-          }
-          array[lastIndex + 1] = currentElement;
-        }
-        console.log(iDates);
-        return sortedArray;
-    };
-
-    fDates = (array) => {
-        const sortedArray = [...array];
-        for (let i = 1; i < array.length; i++) {
-          let currentElement = array[i].date;
-          let lastIndex = i - 1;
-      
-          while (lastIndex >= 0 && compareDates(currentElement.valueOf, array[lastIndex].date.valueOf) > 0) {
-            array[lastIndex + 1] = array[lastIndex];
-            lastIndex--;
-          }
-          array[lastIndex + 1] = currentElement;
-        }
-        console.log(fDates);
-        return sortedArray;
-    };
-
-    console.log(iDates);
-    console.log(fDates);
+    iDates = sortArray(iDates);
+    fDates = sortArray(fDates);
 
     iDates.forEach((course) => {
         addCourseToList(course.date, course.type, course.places, course.id);
@@ -123,6 +91,21 @@ async function loadCourses() {
 
     return;
 }
+
+function sortArray(array) {
+    for (let i = 1; i < array.length; i++) {
+      let currentElement = array[i].date;
+      let lastIndex = i - 1;
+  
+      while (lastIndex >= 0 && compareDates(currentElement.valueOf, array[lastIndex].date.valueOf) > 0) {
+        array[lastIndex + 1] = array[lastIndex];
+        lastIndex--;
+      }
+      array[lastIndex + 1] = currentElement;
+    }
+    console.log(fDates);
+    return array;
+};
 
 function compareDates(a, b) {
   const dateA = moment(a.date, "DD.MM.YYYY");
