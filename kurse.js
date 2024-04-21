@@ -87,7 +87,7 @@ async function loadCourses() {
           array[lastIndex + 1] = currentElement;
         }
       
-        return array;
+        iDates = array;
     };
 
     fDates = (array) => {
@@ -102,7 +102,7 @@ async function loadCourses() {
           array[lastIndex + 1] = currentElement;
         }
       
-        return array;
+        fDates = array;
     };
 
     iDates.forEach((course) => {
