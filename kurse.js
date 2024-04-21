@@ -48,11 +48,8 @@ async function loadCourses() {
         getDocs(ferienQuery)
     ]);
 
-    let iDates = [];
-    let fDates = [];
-
-    await pushData(iDates);
-    await pushData(fDates);
+    await pushData(intensiveSnapshot);
+    await pushData(ferienSnapshot);
 }
 
 async function pushData(array) {
