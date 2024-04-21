@@ -55,7 +55,7 @@ async function loadCourses() {
         const courseData = doc.data();
         const parsedStartDate = parseDate(courseData.start.toString());
 
-        const insertIndex = iDates.findInsertIndex(compareDates);
+        const insertIndex = iDates.findInsertIndex((courseA, courseB) => compareDates(courseA.date, courseB.date));
         iDates.splice(insertIndex, 0, {
             date: parsedStartDate,
             type: "i",
@@ -68,7 +68,7 @@ async function loadCourses() {
         const courseData = doc.data();
         const parsedStartDate = parseDate(courseData.start.toString());
 
-        const insertIndex = fDates.findInsertIndex(compareDates);
+        const insertIndex = fDates.findInsertIndex((courseA, courseB) => compareDates(courseA.date, courseB.date));
         fDates.splice(insertIndex, 0, {
             date: parsedStartDate,
             type: "f",
