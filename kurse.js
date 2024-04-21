@@ -48,12 +48,22 @@ async function loadCourses() {
         getDocs(ferienQuery)
     ]);
 
-    await pushData(intensiveSnapshot);
-    await pushData(ferienSnapshot);
-}
+    let iDates = [];
+    let fDates = [];
 
-async function pushData(array) {
-    await array.forEach(async (doc) => {
+    intensiveSnapshot.forEach(async (doc) => {
+        const courseData = doc.data();
+        const parsedStartDate = await parseDate(courseData.start.toString());
+
+        iDates.push({
+            date: parsedStartDate,
+            type: "i",
+            places: courseData.places,
+            id: doc.id
+        });
+    });
+
+    ferienSnapshot.forEach(async (doc) => {
         const courseData = doc.data();
         const parsedStartDate = await parseDate(courseData.start.toString());
 
@@ -64,7 +74,31 @@ async function pushData(array) {
             id: doc.id
         });
     });
-    await sortArray(array);
+
+    console.log("-------");
+    console.log("1");
+    console.log(iDates);
+    console.log(fDates);
+    console.log("-------");
+
+    let sortedIDates = await sortArray(iDates);
+    let sortedFDates = await sortArray(fDates);
+
+    console.log("-------");
+    console.log("3");
+    console.log(sortedIDates);
+    console.log(sortedFDates);
+    console.log("-------");
+
+    sortedIDates.forEach((course) => {
+        addCourseToList(course.date, course.type, course.places, course.id);
+    });
+
+    sortedFDates.forEach((course) => {
+        addCourseToList(course.date, course.type, course.places, course.id);
+    });
+
+    return;
 }
 
 async function sortArray(beforeArray) {
@@ -83,10 +117,11 @@ async function sortArray(beforeArray) {
       }
       array[lastIndex + 1] = currentElement;
     }
-
-    array.forEach((course) => {
-        addCourseToList(course.date, course.type, course.places, course.id);
-    });
+    console.log("-------");
+    console.log("2");
+    console.log(array);
+    console.log("-------");
+    return array;
 }
 
 function compareDates(a, b) {
