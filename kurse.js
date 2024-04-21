@@ -99,14 +99,14 @@ async function loadCourses() {
 
 async function sortArray(array) {
     for (let i = 1; i < array.length; i++) {
-      let currentElement = array[i].date;
+      let currentElement = array[i];
       let lastIndex = i - 1;
   
-      while (lastIndex >= 0 && compareDates(currentElement.valueOf, array[lastIndex].date.valueOf) < 0) {
-        array[lastIndex + 1].date = array[lastIndex].date;
+      while (lastIndex >= 0 && compareDates(currentElement.date.valueOf, array[lastIndex].date.valueOf) > 0) {
+        array[lastIndex + 1] = array[lastIndex];
         lastIndex--;
       }
-      array[lastIndex + 1].date = currentElement;
+      array[lastIndex + 1] = currentElement;
     }
     console.log("2");
     console.log(array);
