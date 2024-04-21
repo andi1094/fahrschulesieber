@@ -119,7 +119,7 @@ async function sortArray(array) {
     console.log(array);
     console.log("-------");
     return array;
-};
+}
 
 function compareDates(a, b) {
   const dateA = moment(a.date, "DD.MM.YYYY");
