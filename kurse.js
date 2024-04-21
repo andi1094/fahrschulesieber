@@ -75,30 +75,8 @@ async function loadCourses() {
         });
     });
 
-    console.log("-------");
-    console.log("1");
-    console.log(iDates);
-    console.log(fDates);
-    console.log("-------");
-
-    let sortedIDates = await sortArray(iDates);
-    let sortedFDates = await sortArray(fDates);
-
-    console.log("-------");
-    console.log("3");
-    console.log(sortedIDates);
-    console.log(sortedFDates);
-    console.log("-------");
-
-    sortedIDates.forEach((course) => {
-        addCourseToList(course.date, course.type, course.places, course.id);
-    });
-
-    sortedFDates.forEach((course) => {
-        addCourseToList(course.date, course.type, course.places, course.id);
-    });
-
-    return;
+    await sortArray(iDates);
+    await sortArray(fDates);
 }
 
 async function sortArray(beforeArray) {
@@ -117,11 +95,10 @@ async function sortArray(beforeArray) {
       }
       array[lastIndex + 1] = currentElement;
     }
-    console.log("-------");
-    console.log("2");
-    console.log(array);
-    console.log("-------");
-    return array;
+
+    array.forEach((course) => {
+        addCourseToList(course.date, course.type, course.places, course.id);
+    });
 }
 
 function compareDates(a, b) {
