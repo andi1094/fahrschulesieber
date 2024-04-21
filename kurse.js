@@ -103,7 +103,6 @@ async function sortArray(array) {
       }
       array[lastIndex + 1].date = currentElement;
     }
-    console.log(fDates);
     return array;
 };
 
