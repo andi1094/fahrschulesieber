@@ -97,7 +97,7 @@ async function sortArray(array) {
       let currentElement = array[i].date;
       let lastIndex = i - 1;
   
-      while (lastIndex >= 0 && compareDates(currentElement.valueOf, array[lastIndex].date.valueOf) > 0) {
+      while (lastIndex >= 0 && compareDates(currentElement.valueOf, array[lastIndex].date.valueOf) < 0) {
         array[lastIndex + 1].date = array[lastIndex].date;
         lastIndex--;
       }
