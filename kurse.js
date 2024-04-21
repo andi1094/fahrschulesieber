@@ -75,35 +75,8 @@ async function loadCourses() {
         });
     });
 
-    iDates = (array) => {
-        for (let i = 1; i < array.length; i++) {
-          let currentElement = array[i].date;
-          let lastIndex = i - 1;
-      
-          while (lastIndex >= 0 && compareDates(currentElement.valueOf, array[lastIndex].date.valueOf) < 0) {
-            array[lastIndex + 1] = array[lastIndex];
-            lastIndex--;
-          }
-          array[lastIndex + 1] = currentElement;
-        }
-      
-        return array;
-    };
-
-    fDates = (array) => {
-        for (let i = 1; i < array.length; i++) {
-          let currentElement = array[i].date;
-          let lastIndex = i - 1;
-      
-          while (lastIndex >= 0 && compareDates(currentElement.valueOf, array[lastIndex].date.valueOf) < 0) {
-            array[lastIndex + 1] = array[lastIndex];
-            lastIndex--;
-          }
-          array[lastIndex + 1] = currentElement;
-        }
-      
-        return array;
-    };
+    iDates.sort((a, b) => compareDates(a.date, b.date));
+    fDates.sort((a, b) => compareDates(a.date, b.date));
 
     iDates.forEach((course) => {
         addCourseToList(course.date, course.type, course.places, course.id);
