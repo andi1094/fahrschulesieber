@@ -62,6 +62,23 @@ async function loadCourses() {
                 places: courseData.places,
                 id: doc.id
               });
+        } else if (iDates.length === 1) {
+            const comparison = compareDates({ date: parsedStartDate }, iDates[0]);
+            if (comparison < 0) {
+              iDates.unshift({
+                date: parsedStartDate,
+                type: "i",
+                places: courseData.places,
+                id: doc.id
+              });
+            } else {
+              iDates.push({
+                date: parsedStartDate,
+                type: "i",
+                places: courseData.places,
+                id: doc.id
+              });
+            }
         } else {
             const insertIndex = iDates.findInsertIndex((courseA, courseB) => compareDates(courseA.date, courseB.date));
             iDates.splice(insertIndex, 0, {
@@ -84,6 +101,23 @@ async function loadCourses() {
                 places: courseData.places,
                 id: doc.id
               });
+        } else if (fDates.length === 1) {
+            const comparison = compareDates({ date: parsedStartDate }, fDates[0]);
+            if (comparison < 0) {
+              fDates.unshift({
+                date: parsedStartDate,
+                type: "f",
+                places: courseData.places,
+                id: doc.id
+              });
+            } else {
+              fDates.push({
+                date: parsedStartDate,
+                type: "f",
+                places: courseData.places,
+                id: doc.id
+              });
+            }
         } else {
             const insertIndex = fDates.findInsertIndex((courseA, courseB) => compareDates(courseA.date, courseB.date));
             fDates.splice(insertIndex, 0, {
