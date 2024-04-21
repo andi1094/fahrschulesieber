@@ -51,21 +51,12 @@ async function loadCourses() {
     let iDates = [];
     let fDates = [];
 
-    intensiveSnapshot.forEach(async (doc) => {
-        const courseData = doc.data();
-        const parsedStartDate = await parseDate(courseData.start.toString());
+    await pushData(iDates);
+    await pushData(fDates);
+}
 
-        iDates.push({
-            date: parsedStartDate,
-            type: "i",
-            places: courseData.places,
-            id: doc.id
-        });
-    }, async () => {
-        await sortArray(iDates);
-    });
-
-    ferienSnapshot.forEach(async (doc) => {
+async function pushData(array) {
+    await array.forEach(async (doc) => {
         const courseData = doc.data();
         const parsedStartDate = await parseDate(courseData.start.toString());
 
@@ -75,9 +66,8 @@ async function loadCourses() {
             places: courseData.places,
             id: doc.id
         });
-    }, async () => {
-        await sortArray(fDates);
-    }); 
+    });
+    await sortArray(array);
 }
 
 async function sortArray(beforeArray) {
